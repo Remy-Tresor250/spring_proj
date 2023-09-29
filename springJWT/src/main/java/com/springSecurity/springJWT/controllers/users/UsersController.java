@@ -24,7 +24,12 @@ public class UsersController {
     }
 
     @PatchMapping(path = "/user/{id}/update")
-    public ResponseEntity<?> updateUser (@PathVariable(name = "id") UUID userId, @RequestBody Map<String, String> updates) {
+    public ResponseEntity<User> updateUser (@PathVariable(name = "id") UUID userId, @RequestBody Map<String, String> updates) {
         return ResponseEntity.status(HttpStatus.OK).body(usersService.updateUser(userId, updates));
+    }
+
+    @DeleteMapping(path = "/user/{id}/delete")
+    public ResponseEntity<Map<String, String>> deleteUser (@PathVariable(name = "id") UUID userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(usersService.deleteUser(userId));
     }
 }
