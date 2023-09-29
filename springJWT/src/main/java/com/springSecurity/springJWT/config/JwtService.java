@@ -55,7 +55,7 @@ public class JwtService {
     }
 
     public String generateTokenUser(UserDetails userDetails){
-        return generateToken(new HashMap<String, Object>() {{
+        return generateToken(new HashMap<>() {{
             put("role", userDetails.getAuthorities());
         }}, userDetails);
     }

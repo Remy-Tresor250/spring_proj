@@ -8,10 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,10 +29,10 @@ public class UsersService {
                     return new IllegalStateException("User with id " + userId + " wasn't found!");
                 }
         );
-        String email = (String) updates.get("email");
-        String password = (String) updates.get("password");
-        String firstName = (String) updates.get("firstName");
-        String lastName = (String) updates.get("lastName");
+        String email = updates.get("email");
+        String password = updates.get("password");
+        String firstName = updates.get("firstName");
+        String lastName = updates.get("lastName");
 
         if(email != null && email.length() > 0 && !Objects.equals(user.getEmail(), email)){
             user.setEmail(email);
@@ -54,5 +51,17 @@ public class UsersService {
         }
 
         return user;
+    }
+
+    public Map<String, String> deleteUser(UUID userId) {
+
+        boolean userExists = userRepository.existsById(userId);
+
+        if (!userExists) throw new IllegalStateException("User with "+ userId +" not found!");
+
+        userRepository.deleteById(userId);
+        return new HashMap<>() {{
+            put("message", "The User is deleted successfully!");
+        }};
     }
 }
